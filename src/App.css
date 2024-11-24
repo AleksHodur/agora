@@ -1,5 +1,7 @@
 .App {
-  display: flex;
+  /* display: flex; */
+  margin-left: 3vw;
+  margin-right: 3vw;
 }
 .App .container{
   flex-grow: 1;

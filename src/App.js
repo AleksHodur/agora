@@ -7,17 +7,20 @@ import Create from './pages/create/Create';
 import Login from './pages/login/Login';
 import Signup from './pages/signup/Signup';
 import Project from './pages/project/Project';
+import Navbar from './components/navbar/Navbar';
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
+
+        <Navbar />
         <div className="container">
           <Switch>
 
             <Route exact path='/'>
                 <Dashboard/>
-              </Route>
+            </Route>
 
               <Route path='/create'>
                 <Create/>
