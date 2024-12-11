@@ -24,3 +24,6 @@ yarn-error.log*
 
 # firebase
 /src/firebase/firebase-config.js
+
+#pinata
+/src/pinata/pinata-config.js
