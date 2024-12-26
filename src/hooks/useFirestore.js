@@ -69,6 +69,6 @@ export const useFirestore = (collection) => {
         return () => setIsCancelled(true);
     }, []);
 
-    return { addDocument, deleteDocument, respomse}
+    return { addDocument, deleteDocument, response }
 }
 

@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 //styles
 import './Signup.css';
+import { useSignup } from '../../hooks/useSignup';
 
 function Signup () {
     const [email, setEmail] = useState('');
@@ -9,6 +10,7 @@ function Signup () {
     const [displayName, setDisplayName] = useState('');
     const [thumbnail, setThumbnail] = useState(null);
     const [thumbnailError, setThumbnailError] = useState(null);
+    const { signup, error, isPending } = useSignup();
 
     const handleFileChange = (e) => {
         setThumbnail(null);
@@ -36,6 +38,7 @@ function Signup () {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(email, password, displayName, thumbnail);
+        signup(displayName, email, password, thumbnail);
     }
 
     return ( 
