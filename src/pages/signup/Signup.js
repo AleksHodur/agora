@@ -10,7 +10,7 @@ function Signup () {
     const [displayName, setDisplayName] = useState('');
     const [thumbnail, setThumbnail] = useState(null);
     const [thumbnailError, setThumbnailError] = useState(null);
-    const { signup, error, isPending } = useSignup();
+    const { signup, error: signupError, isPending } = useSignup();
 
     const handleFileChange = (e) => {
         setThumbnail(null);
@@ -86,6 +86,19 @@ function Signup () {
             {thumbnailError && (
                 <div className='error'>
                     { thumbnailError }
+                </div>
+            )}
+
+            {isPending && (
+                <div>
+                    Loading...
+                </div>
+            )}
+
+            {signupError && (
+                <div className='error'>
+                    There has been an error and the signup could not be completed. 
+                    Please, try again later.
                 </div>
             )}
 
