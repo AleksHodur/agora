@@ -89,19 +89,15 @@ function Signup () {
                 </div>
             )}
 
-            {isPending && (
-                <div>
-                    Loading...
-                </div>
-            )}
-
             {signupError && (
                 <div className='error'>
                     { signupError }
                 </div>
             )}
 
-            <button className="btn">Sign up</button>
+            {!isPending &&<button className="btn">Sign up</button>}
+            {isPending &&<button className="btn" disabled>Loading...</button>}
+
         </form>
      );
 }
