@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
-import { projectAuth } from '../firebase/config';
+import { projectAuth, projectFirestore } from '../firebase/config';
 import { useAuthContext } from './useAuthContext';
 import { usePinata } from './usePinata';
+//import { setDoc, doc } from 'firebase/firestore';
 
 export const useSignup = () => {
     const isCancelled= useRef(false);
@@ -24,6 +25,7 @@ export const useSignup = () => {
 
             await res.user.updateProfile({ displayName });
 
+            // adding profile photo
             let imgURL = null;
 
             if(thumbnail){
@@ -38,16 +40,31 @@ export const useSignup = () => {
                     imgURL = `https://gateway.pinata.cloud/ipfs/${hash}`;
                 }else{
                     console.log('Error uploading from useSignup hook');
+                    dispatch({type: 'LOGIN', payload: res.user});
+                    throw new Error('User signed up successfully, could not upload profile image');
                 }
             }
 
             await res.user.updateProfile({ photoURL: imgURL });
+
+            // create user document
+            // id should be user's id: using doc() + set() instead of add(), doc is Reference, if ref doesn't exists it creates it
+            
+            await projectFirestore.collection('users').doc(res.user.uid).set({
+                online: true,
+                displayName,
+                imgURL
+            });
+
+            console.log("User signed up and document created in Firestore!");
 
             dispatch({type: 'LOGIN', payload: res.user});
 
             if(!isCancelled.current){
                 setError(null);
             }
+
+            setIsPending(false);
 
 
         }catch(err){

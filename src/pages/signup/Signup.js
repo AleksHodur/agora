@@ -97,8 +97,7 @@ function Signup () {
 
             {signupError && (
                 <div className='error'>
-                    There has been an error and the signup could not be completed. 
-                    Please, try again later.
+                    { signupError }
                 </div>
             )}
 
