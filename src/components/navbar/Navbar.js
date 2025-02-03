@@ -17,12 +17,15 @@ function Navbar () {
                     <span>Agora</span>
                 </li>
 
-                {user == null && <li><Link to="/login">Login</Link></li>}
-                {user == null && <li><Link to="/signup">Signup</Link></li>}
+                {user == null && 
+                    <>
+                        <li><Link to="/login">Login</Link></li>
+                        <li><Link to="/signup">Signup</Link></li>
+                    </>
+                }
+                {(user != null && !isPending) && <button className="btn" onClick={logout}>Logout</button>}
 
-                    {(user != null && !isPending) && <button className="btn" onClick={logout}>Logout</button>}
-
-                    {(user != null && isPending) && <button className="btn" disabled>Logging out...</button>}
+                {(user != null && isPending) && <button className="btn" disabled>Logging out...</button>}
             </ul>
         </div>
      );
