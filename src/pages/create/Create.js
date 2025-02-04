@@ -1,5 +1,13 @@
 import './Create.css';
 import { useState } from 'react';
+import Select from 'react-select';
+
+const categories = [
+    { value: 'development', label: 'Development' },
+    { value: 'design', label: 'Design' },
+    { value: 'sales', label: 'Sales' },
+    { value: 'marketing', label: 'Marketing' }
+];
 
 function Create () {
     //form field values
@@ -11,7 +19,7 @@ function Create () {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(name, details, dueDate);
+        console.log(name, details, dueDate, category);
     }
 
     return ( 
@@ -46,6 +54,14 @@ function Create () {
                     type="date"
                     onChange={(e) => setDueDate(e.target.value)}
                     value={dueDate}
+                    />
+                </label>
+
+                <label>
+                    <span>Project category</span>
+                    <Select
+                        onChange={(option) => setCategory(option)}
+                        options={ categories }
                     />
                 </label>
 
