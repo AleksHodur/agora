@@ -75,6 +75,15 @@ textarea {
   margin: 10px 0;
 }
 
+.success {
+  color: green;
+  background: lightgreen;
+  border: 1px solid green;
+  border-radius: 4px;
+  padding: 8px;
+  margin: 10px 0;
+}
+
 .flex-container {
   display: flex;
 }

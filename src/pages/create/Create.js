@@ -2,7 +2,7 @@ import './Create.css';
 import { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { useCollection } from '../../hooks/useCollection';
-import { timestamp } from '../../firebase/config';
+import { timestamp, projectFirestore } from '../../firebase/config';
 import { useAuthContext } from '../../hooks/useAuthContext';
 
 const categories = [
@@ -16,6 +16,7 @@ function Create () {
     const { documents } = useCollection('users');
     const [users, setUsers] = useState([]);
     const { user } = useAuthContext();
+    const [projectCreated, setProjectCreated] = useState(false);
 
     //form field values
     const [name, setName] = useState('');
@@ -72,7 +73,16 @@ function Create () {
             assignedUsersList
         }
 
-        console.log(project);
+        try{
+
+            projectFirestore.collection('projects').doc().set(project);
+            setProjectCreated(true);
+
+        }catch (err){
+            setFormError('There has been an error creating the project in database');
+            console.log('Project object error: ', err);
+        }
+
     }
 
     return ( 
@@ -130,6 +140,7 @@ function Create () {
                 <button className="btn">Add Project</button>
 
                 { formError && <p className='error'>{ formError }</p> }
+                { projectCreated && <p className='success'>The project has been created!</p> }
             </form>
         </div>
      );
