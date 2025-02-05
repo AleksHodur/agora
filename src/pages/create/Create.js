@@ -2,8 +2,10 @@ import './Create.css';
 import { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { useCollection } from '../../hooks/useCollection';
-import { timestamp, projectFirestore } from '../../firebase/config';
+import { timestamp } from '../../firebase/config';
+import { useFirestore } from '../../hooks/useFirestore';
 import { useAuthContext } from '../../hooks/useAuthContext';
+import { useHistory } from 'react-router-dom';
 
 const categories = [
     { value: 'development', label: 'Development' },
@@ -13,10 +15,11 @@ const categories = [
 ];
 
 function Create () {
+    const history = useHistory();
+    const { addDocument, response } = useFirestore('projects');
     const { documents } = useCollection('users');
     const [users, setUsers] = useState([]);
     const { user } = useAuthContext();
-    const [projectCreated, setProjectCreated] = useState(false);
 
     //form field values
     const [name, setName] = useState('');
@@ -35,7 +38,7 @@ function Create () {
         }
     }, [documents]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setFormError(null);
 
@@ -73,14 +76,11 @@ function Create () {
             assignedUsersList
         }
 
-        try{
 
-            projectFirestore.collection('projects').doc().set(project);
-            setProjectCreated(true);
+        await addDocument(project);
 
-        }catch (err){
-            setFormError('There has been an error creating the project in database');
-            console.log('Project object error: ', err);
+        if(!response.error){
+            history.push('/');
         }
 
     }
@@ -140,7 +140,6 @@ function Create () {
                 <button className="btn">Add Project</button>
 
                 { formError && <p className='error'>{ formError }</p> }
-                { projectCreated && <p className='success'>The project has been created!</p> }
             </form>
         </div>
      );
