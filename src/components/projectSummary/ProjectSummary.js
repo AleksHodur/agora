@@ -1,20 +1,15 @@
 import Avatar from '../avatar/Avatar';
 import './ProjectSummary.css'
+import { firestoreDateToLocaleString } from '../../helpers/converters';
 
 function ProjectSummary({ project }) {
-    const convertDate = (date) => {
-        const dateJS = date.toDate();
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-
-        return dateJS.toLocaleDateString('en-GB', options);
-    }
 
     return ( 
         <div>
             <div className="project-summary">
                 <h2 className="page-title">{ project.name }</h2>
                 <p className="due-date">
-                    Project due by { convertDate(project.dueDate) }
+                    Project due by { firestoreDateToLocaleString(project.dueDate) }
                 </p>
                 <p className="details">
                     { project.details }

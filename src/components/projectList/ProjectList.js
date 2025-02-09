@@ -1,15 +1,9 @@
 import Avatar from '../avatar/Avatar';
 import './ProjectList.css';
 import { Link } from 'react-router-dom';
-import { timestamp } from '../../firebase/config';
+import { firestoreDateToLocaleString } from '../../helpers/converters';
 
 function ProjectList({ projects}) {
-    const convertDate = (date) => {
-        const dateJS = date.toDate();
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-
-        return dateJS.toLocaleDateString('en-GB', options);
-    }
 
     return ( 
         <div className='project-list'>
@@ -17,7 +11,7 @@ function ProjectList({ projects}) {
             {projects.map((project) => (
                 <Link to={`/project/${project.id}`} key={ project.id }>
                     <h4>{ project.name }</h4>
-                    <p>Due by { convertDate(project.dueDate) }</p>
+                    <p>Due by { firestoreDateToLocaleString(project.dueDate) }</p>
                     <div className="assigned-to">
                         <ul>
                             {project.assignedUsersList.map(user => (
