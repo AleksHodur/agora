@@ -18,10 +18,7 @@ function Project () {
 
     return ( 
         <div className='project-details'>
-            <div>
-                <h1>{ document.name }</h1>
-                <ProjectSummary project={ document } />
-            </div>
+            <ProjectSummary project={ document } />
             <ProjectComments project={ document } />
         </div>
      );
