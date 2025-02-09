@@ -22,7 +22,7 @@ function Project () {
                 <h1>{ document.name }</h1>
                 <ProjectSummary project={ document } />
             </div>
-            <ProjectComments />
+            <ProjectComments project={ document } />
         </div>
      );
 }

@@ -2,8 +2,10 @@ import './ProjectComments.css';
 import { useState } from 'react';
 import { timestamp } from '../../firebase/config';
 import { useAuthContext } from '../../hooks/useAuthContext';
+import { useFirestore } from '../../hooks/useFirestore';
 
-function ProjectComments() {
+function ProjectComments({ project }) {
+    const { updateDocument, response } = useFirestore('projects');
     const [newComment, setNewComment] = useState('');
     const { user } = useAuthContext();
 
@@ -19,6 +21,16 @@ function ProjectComments() {
         }
 
         console.log(commentObject);
+
+        await updateDocument(project.id, {
+            comments: [...project.comments, commentObject]
+        });
+
+        if(!response.error){
+            setNewComment('');
+        }else{
+            console.log(response.error);
+        }
     }
 
     return ( 
