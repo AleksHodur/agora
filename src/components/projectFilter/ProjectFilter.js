@@ -1,6 +1,6 @@
 import './ProjectFilter.css';
 
-const filterList = ['all', 'mine', 'development', 'design', 'marketing', 'sales'];
+const filterList = ['all', 'by me', 'mine', 'development', 'design', 'marketing', 'sales'];
 
 function ProjectFilter({ currentFilter, changeFilter }) {
 
