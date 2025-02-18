@@ -7,6 +7,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "agora": "file:",
+    "date-fns": "^4.1.0",
     "firebase": "8.5",
     "pinata": "^1.9.1",
     "pinata-web3": "^0.5.2",

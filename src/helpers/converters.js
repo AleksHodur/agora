@@ -4,3 +4,9 @@ export const firestoreDateToLocaleString = (date) => {
 
     return dateJS.toLocaleDateString('en-GB', options);
 }
+
+export const firestoreDateToJSDate = (date) => {
+    const dateJS = date.toDate();
+
+    return dateJS;
+}
