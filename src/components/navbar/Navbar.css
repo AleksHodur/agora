@@ -21,7 +21,7 @@
   .navbar .logo img {
     margin-right: 10px;
     filter: invert(25%);/*take the color of img and tone it down a bit */
-    width: 36px;
+    width: 46px;
     margin-top: -8px;
   }
   .navbar a {

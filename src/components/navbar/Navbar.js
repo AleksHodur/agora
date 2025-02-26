@@ -3,7 +3,7 @@ import { useLogout } from '../../hooks/useLogout'
 import { useAuthContext } from '../../hooks/useAuthContext';
 
 import './Navbar.css';
-import Temple from '../../assets/temple.svg';
+import Parthenon from '../../assets/parthenon.svg';
 
 function Navbar () {
     const { logout, isPending } = useLogout();
@@ -13,7 +13,7 @@ function Navbar () {
         <div className='navbar'>
             <ul>
                 <li className="logo">
-                    <img src={Temple} alt="agora logo" />
+                    <img src={Parthenon} alt="agora logo" />
                     <span>Agora</span>
                 </li>
 
