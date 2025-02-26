@@ -20,6 +20,6 @@ The front-end is written with React.js, using libraries like react-dom, Router, 
 
 ![project_page](https://github.com/user-attachments/assets/dabfb54b-304e-4d4d-96bc-28f4a06aa7be)
 
-## A demo it's on its way
+## A demo is on its way
 
 I'm working on making available a demo where anyone can use the page as a real user.
