@@ -1,9 +1,10 @@
 import '@testing-library/jest-dom';
 import { act } from 'react';
-import { render, screen, cleanup } from '@testing-library/react';
+import { render, screen, cleanup, renderHook } from '@testing-library/react';
 import Navbar from '../Navbar';
 import { AuthContext, AuthContextProvider } from '../../../context/AuthContext';
 import { BrowserRouter } from 'react-router-dom/cjs/react-router-dom.min';
+import { useLogout } from '../../../hooks/useLogout';
 
 const MockNavbar = () => {
     return (
@@ -37,6 +38,8 @@ const MockNavbarWithUser = () => {
     );
 }
 
+jest.mock('../../../hooks/useLogout');
+
 describe('Navbar', () => {
 
     afterEach(() => {
@@ -46,6 +49,12 @@ describe('Navbar', () => {
     //No user tests
 
     test('if there is no user, Login button should be available', async () => {
+        
+        useLogout.mockReturnValue({
+            logout: jest.fn(),
+            isPending: false
+        });
+        
         await act( async () => {
             render(<MockNavbar />)
         });
@@ -55,6 +64,12 @@ describe('Navbar', () => {
     });
 
     test('if there is no user, Signup button should be available', async () => {
+        
+        useLogout.mockReturnValue({
+            logout: jest.fn(),
+            isPending: false
+        });
+        
         await act( async () => {
             render(<MockNavbar />)
         });
@@ -64,6 +79,12 @@ describe('Navbar', () => {
     });
 
     test('if there is no user, Logout button should not be available', async () => {
+        
+        useLogout.mockReturnValue({
+            logout: jest.fn(),
+            isPending: false
+        });
+        
         await act( async () => {
             render(<MockNavbar />)
         });
@@ -74,8 +95,14 @@ describe('Navbar', () => {
 
     //User tests
 
-    test('if there is a user logged in and there is not a logout pending,' + 
+    test('if there is a user logged in and there is not a logout pending, ' + 
         'Logout button should be available', async () => {
+
+        useLogout.mockReturnValue({
+            logout: jest.fn(),
+            isPending: false
+        });
+
         await act( async () => {
             render(<MockNavbarWithUser />)
         });
@@ -84,7 +111,61 @@ describe('Navbar', () => {
         expect(logoutButton).toBeInTheDocument();
     });
 
+    test('if there is a user logged in and there is a logout pending, ' + 
+        'Logging out message should be visible', async () => {
+
+        useLogout.mockReturnValue({
+            logout: jest.fn(),
+            isPending: true
+        });
+
+        await act( async () => {
+            render(<MockNavbarWithUser />)
+        });
+
+        const pendingButton = screen.getByRole('button', { name: /logging out.../i });
+        expect(pendingButton).toBeDisabled();
+    });
+
+    test('if there is a user logged in and there is not a logout pending, ' + 
+        'Logging out message should not be visible', async () => {
+
+        useLogout.mockReturnValue({
+            logout: jest.fn(),
+            isPending: false
+        });
+
+        await act( async () => {
+            render(<MockNavbarWithUser />)
+        });
+
+        const pendingButton = screen.queryByRole('button', { name: /logging out.../i });
+        expect(pendingButton).toBeNull();
+    });
+
+    test('if there is a user logged in and there is a logout pending, ' + 
+        'Logout button should not be available', async () => {
+
+        useLogout.mockReturnValue({
+            logout: jest.fn(),
+            isPending: true
+        });
+
+        await act( async () => {
+            render(<MockNavbarWithUser />)
+        });
+
+        const logoutButton = screen.queryByRole('button', { name: /logout/i });
+        expect(logoutButton).toBeNull();
+    });
+
     test('if there is a user logged in, Login button should not be available', async () => {
+        
+        useLogout.mockReturnValue({
+            logout: jest.fn(),
+            isPending: false
+        });
+        
         await act( async () => {
             render(<MockNavbarWithUser />)
         });
@@ -94,6 +175,12 @@ describe('Navbar', () => {
     });
 
     test('if there is a user logged in, Signup button should not be available', async () => {
+        
+        useLogout.mockReturnValue({
+            logout: jest.fn(),
+            isPending: false
+        });
+        
         await act( async () => {
             render(<MockNavbarWithUser />)
         });
