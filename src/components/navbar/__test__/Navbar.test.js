@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { act } from 'react';
-import { render, screen, cleanup, renderHook } from '@testing-library/react';
+import { render, screen, cleanup } from '@testing-library/react';
 import Navbar from '../Navbar';
 import { AuthContext, AuthContextProvider } from '../../../context/AuthContext';
 import { BrowserRouter } from 'react-router-dom/cjs/react-router-dom.min';
