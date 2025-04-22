@@ -14,50 +14,48 @@ import OnlineUsers from './components/onlineUsers/OnlineUsers';
 
 function App() {
 
-  const { user, authIsReady } = useAuthContext();
+  const { user } = useAuthContext();
 
   return (
     <div className="App">
-      { authIsReady && (
-        <BrowserRouter>
+      <BrowserRouter>
 
-          { user && <Sidebar />}
+        { user && <Sidebar />}
 
-          <div className="container">
-            <Navbar />
-            <Switch>
+        <div className="container">
+          <Navbar />
+          <Switch>
 
-              <Route exact path='/'>
-                  { !user && <Redirect to="/login"/>}
-                  { user && <Dashboard/>}
+            <Route exact path='/'>
+                { !user && <Redirect to="/login"/>}
+                { user && <Dashboard/>}
+            </Route>
+
+              <Route path='/create'>
+                { !user && <Redirect to="/login"/>}
+                { user && <Create/>}
               </Route>
 
-                <Route path='/create'>
-                  { !user && <Redirect to="/login"/>}
-                  { user && <Create/>}
-                </Route>
+              <Route path='/project/:id'>
+                { !user && <Redirect to="/login"/>}
+                { user && <Project/>}
+              </Route>
 
-                <Route path='/project/:id'>
-                  { !user && <Redirect to="/login"/>}
-                  { user && <Project/>}
-                </Route>
-
-                <Route path='/login'>
-                  { !user && <Login/>}
-                  { user && <Redirect to="/" />}
-                </Route>
-
-                <Route path='/signup'>
-                { !user && <Signup/>}
+              <Route path='/login'>
+                { !user && <Login/>}
                 { user && <Redirect to="/" />}
-                </Route>
+              </Route>
 
-            </Switch>
-          </div>
+              <Route path='/signup'>
+              { !user && <Signup/>}
+              { user && <Redirect to="/" />}
+              </Route>
 
-          { user && <OnlineUsers />}
-        </BrowserRouter>
-      )}
+          </Switch>
+        </div>
+
+        { user && <OnlineUsers />}
+      </BrowserRouter>
     </div>
   );
 }
