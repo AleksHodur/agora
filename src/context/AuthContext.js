@@ -1,40 +1,16 @@
-import { createContext, useReducer, useEffect } from 'react';
-import { projectAuth } from '../firebase/config';
+import { createContext } from 'react';
 
 export const AuthContext = createContext();
 
-const authReducer = (state, action) => {
-    switch(action.type){
-
-        case 'LOGIN':
-            return {...state, user: action.payload};
-
-        case 'LOGOUT':
-            return {...state, user: null};
-
-        case 'AUTH_IS_READY':
-            return {...state, user: action.payload, authIsReady: true};
-
-        default:
-            return state;
-    }
-}
-
 export const AuthContextProvider = ({children}) => {
-    const [state, dispatch] = useReducer(authReducer, {
-        user: null,
-        authIsReady: false
-    });
-
-    useEffect(() => {
-        const unsub = projectAuth.onAuthStateChanged((user) => {
-            dispatch({ type: 'AUTH_IS_READY', payload: user});
-            unsub();
-        });
-    }, []);
+    const user = {
+        displayName: 'Hephaestus',
+        photoURL: 'https://es.wikipedia.org/wiki/Hefesto#/media/Archivo:Vulcan_Coustou_Louvre_MR1814.jpg',
+        id: 101
+    };
 
     return (
-        <AuthContext.Provider value={{ ...state, dispatch }}>
+        <AuthContext.Provider value={{ user }}>
             { children }
         </AuthContext.Provider>
     );
