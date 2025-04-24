@@ -3,7 +3,7 @@ import { projectFirestore } from '../firebase/config';
 
 export const useCollection = (collection, _query, _orderBy) => {
 
-    const [documents, setdocuments] = useState(null);
+    const [documents, setDocuments] = useState(null);
     const [error, setError] = useState(null);
 
     const query = useRef(_query).current;
@@ -26,7 +26,7 @@ export const useCollection = (collection, _query, _orderBy) => {
                 results.push({ ...doc.data(), id: doc.id })
             });
 
-            setdocuments(results);
+            setDocuments(results);
             setError(null);
         }, (error) => {
             console.log(error);
