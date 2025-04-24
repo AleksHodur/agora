@@ -2,10 +2,9 @@ import './Create.css';
 import { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { useCollection } from '../../hooks/useCollection';
-import { timestamp } from '../../firebase/config';
-import { useFirestore } from '../../hooks/useFirestore';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useHistory } from 'react-router-dom';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
 
 const categories = [
     { value: 'development', label: 'Development' },
@@ -16,7 +15,7 @@ const categories = [
 
 function Create () {
     const history = useHistory();
-    const { addDocument, response } = useFirestore('projects');
+    const { addProject } = useSessionStorage();
     const { documents } = useCollection('users');
     const [users, setUsers] = useState([]);
     const { user } = useAuthContext();
@@ -54,8 +53,7 @@ function Create () {
 
         const createdBy = {
             displayName: user.displayName,
-            photoURL: user.photoURL,
-            id: user.uid
+            photoURL: user.photoURL
         }
 
         const assignedUsersList = assignedUsers.map((u) => {
@@ -70,18 +68,15 @@ function Create () {
             name,
             details,
             category: category.value,
-            dueDate: timestamp.fromDate(new Date(dueDate)),
+            dueDate: new Date(dueDate),
             comments: [],
             createdBy,
             assignedUsersList
         }
 
+        addProject(project);
 
-        await addDocument(project);
-
-        if(!response.error){
-            history.push('/');
-        }
+        history.push('/');
 
     }
 
