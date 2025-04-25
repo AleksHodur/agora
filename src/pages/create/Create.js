@@ -126,6 +126,7 @@ function Create () {
                 <label>
                     <span>Project category</span>
                     <Select
+                        menuPlacement='auto'
                         onChange={(option) => setCategory(option)}
                         options={ categories }
                     />
@@ -134,6 +135,7 @@ function Create () {
                 <label>
                     <span>Assign user:</span>
                     <Select
+                        menuPlacement='auto'
                         onChange={(option) => setAssignedUsers(option)}
                         options={ users }
                         isMulti
