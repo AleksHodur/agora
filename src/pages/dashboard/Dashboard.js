@@ -10,7 +10,8 @@ function Dashboard () {
     const { documents, error } = useCollection('projects');
     const { user } = useAuthContext();
 
-    const projects = documents ? documents.filter((document) => {
+    let projects = documents ? documents.filter((document) => {
+        console.log(document);
         switch (currentFilter) {
             case 'all':
                 return true;
@@ -32,6 +33,38 @@ function Dashboard () {
                 return false;
         }
     }) : null;
+
+    const sessionProjects = JSON.parse(sessionStorage.getItem('projects'));
+
+    if (sessionProjects && projects) {
+        const filteredSessionProjects = sessionProjects.filter((document) => {
+            switch (currentFilter) {
+                case 'all':
+                    return true;
+    
+                case 'by me':
+                    return user.uid === document.createdBy.id;
+    
+                case 'mine':
+                    //some() returns true the first match it finds, more useful than forEach!
+                    return document.assignedUsersList.some((u) => u.id === user.uid);
+    
+                case 'development':
+                case 'design':
+                case 'marketing':
+                case 'sales':
+                    return currentFilter === document.category;
+    
+                default:
+                    return false;
+            }
+        });
+
+        projects = [...projects, ...filteredSessionProjects];
+
+    } else if (sessionProjects) {
+        projects = sessionProjects;
+    }
 
     const changeFilter = (newFilter) => {
         setCurrentFilter(newFilter);

@@ -79,7 +79,8 @@ function Create () {
             dueDate: new Date(dueDate),
             comments: [],
             createdBy,
-            assignedUsersList
+            assignedUsersList,
+            sessionProject: true
         }
 
         addProject(project);
