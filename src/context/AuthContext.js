@@ -5,8 +5,10 @@ export const AuthContext = createContext();
 export const AuthContextProvider = ({children}) => {
     const user = {
         displayName: 'Hephaestus',
-        photoURL: 'https://es.wikipedia.org/wiki/Hefesto#/media/Archivo:Vulcan_Coustou_Louvre_MR1814.jpg',
-        id: 101
+        photoURL: 'https://gateway.pinata.cloud/ipfs/bafkreib2yd5j6ormvvc6rwsbb63c4jigf5j54xfygbfqryvaf6vrqrmwte',
+        imgURL: 'https://gateway.pinata.cloud/ipfs/bafkreib2yd5j6ormvvc6rwsbb63c4jigf5j54xfygbfqryvaf6vrqrmwte',
+        id: 101,
+        online: true
     };
 
     return (
