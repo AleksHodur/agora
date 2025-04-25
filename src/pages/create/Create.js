@@ -32,7 +32,15 @@ function Create () {
         if(documents){
             const options = documents.map(user => {
                 return { value: user, label: user.displayName }
-            })
+            });
+
+            const optionUser = {
+                label: user.displayName,
+                value: user
+            }
+
+            options.push(optionUser);
+
             setUsers(options);
         }
     }, [documents]);
@@ -62,7 +70,7 @@ function Create () {
                 photoURL: u.value.imgURL,
                 id: u.value.id
             }
-        })
+        });
 
         const project = {
             name,
