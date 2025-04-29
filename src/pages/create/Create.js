@@ -61,7 +61,8 @@ function Create () {
 
         const createdBy = {
             displayName: user.displayName,
-            photoURL: user.photoURL
+            photoURL: user.photoURL,
+            id: user.id
         }
 
         const assignedUsersList = assignedUsers.map((u) => {

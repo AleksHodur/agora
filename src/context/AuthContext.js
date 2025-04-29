@@ -8,6 +8,7 @@ export const AuthContextProvider = ({children}) => {
         photoURL: 'https://gateway.pinata.cloud/ipfs/bafkreib2yd5j6ormvvc6rwsbb63c4jigf5j54xfygbfqryvaf6vrqrmwte',
         imgURL: 'https://gateway.pinata.cloud/ipfs/bafkreib2yd5j6ormvvc6rwsbb63c4jigf5j54xfygbfqryvaf6vrqrmwte',
         id: 101,
+        uid: 101,
         online: true
     };
 
