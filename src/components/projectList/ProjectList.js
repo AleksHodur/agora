@@ -1,7 +1,7 @@
 import Avatar from '../avatar/Avatar';
 import './ProjectList.css';
 import { Link } from 'react-router-dom';
-import { firestoreDateToLocaleString } from '../../helpers/converters';
+import { firestoreDateToLocaleString, dateToLocaleString } from '../../helpers/converters';
 
 function ProjectList({ projects }) {
 
@@ -12,7 +12,7 @@ function ProjectList({ projects }) {
                 <Link to={`/project/${project.id}`} key={ project.id }>
                     <h4>{ project.name }</h4>
                     { !project.sessionProject && <p>Due by { firestoreDateToLocaleString(project.dueDate) }</p> }
-                    { project.sessionProject && <p>Due by { new Date(project.dueDate).toLocaleDateString('en-GB', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) }</p> }
+                    { project.sessionProject && <p>Due by { dateToLocaleString(new Date(project.dueDate)) }</p> }
                     <div className="assigned-to">
                         <ul>
                             {project.assignedUsersList.map(user => (
