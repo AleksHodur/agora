@@ -1,19 +1,15 @@
-import { useState } from 'react';
-
-let initialState = sessionStorage.getItem('projects') != null ? JSON.parse(sessionStorage.getItem('projects')) : [];
-
 export const useSessionStorage = () => {
-    const [projects, setProjects] = useState(initialState);
 
-    const callSetProjects = () => {
-        setProjects(JSON.parse(sessionStorage.getItem('projects')));
+    const getProjects = () => {
+        return sessionStorage.getItem('projects') != null ? JSON.parse(sessionStorage.getItem('projects')) : [];
     }
 
     const addProject = (project) => {
+        const projects = getProjects();
         const newProjects = [...projects, project];
 
         sessionStorage.setItem('projects', JSON.stringify(newProjects));
-        callSetProjects();
+        //callSetProjects();
     }
 
     /* const addComment = (comment, projectName) => {

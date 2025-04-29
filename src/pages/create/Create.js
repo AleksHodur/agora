@@ -5,6 +5,7 @@ import { useCollection } from '../../hooks/useCollection';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useHistory } from 'react-router-dom';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
+import { generateId } from '../../helpers/generators';
 
 const categories = [
     { value: 'development', label: 'Development' },
@@ -74,6 +75,7 @@ function Create () {
         });
 
         const project = {
+            id: generateId(),
             name,
             details,
             category: category.value,

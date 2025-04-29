@@ -7,7 +7,7 @@ export const useDocument = (collection, id) => {
     const [error, setError] = useState(null);
 
     // realtime data
-    useEffect(() => {
+    useEffect( () => {
 
         const ref = projectFirestore.collection(collection).doc(id);
 
@@ -21,6 +21,22 @@ export const useDocument = (collection, id) => {
                 setError(null);
             }else{
                 setError('No such document exists');
+
+                if(collection === 'projects') {
+
+                    let sessionProjects = JSON.parse(sessionStorage.getItem('projects'));
+                    let project = sessionProjects.filter(p => p.id === id);
+
+                    if(project) {
+                        setDocument(project);
+                        setError(null);
+                    } else {
+                        setError('No such document exists');
+                    }
+
+                } else {
+                    setError('No such document exists');
+                }
             }
         }, (err) => {
             console.log(err.message);
