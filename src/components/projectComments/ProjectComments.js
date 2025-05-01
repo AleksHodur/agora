@@ -23,7 +23,6 @@ function ProjectComments({ project }) {
             id: Math.random()
         }
 
-        console.log(commentObject);
 
         await updateDocument(project.id, {
             comments: [...project.comments, commentObject]
@@ -32,7 +31,6 @@ function ProjectComments({ project }) {
         if(!response.error){
             setNewComment('');
         }else{
-            console.log(response.error);
         }
     }
 

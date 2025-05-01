@@ -11,7 +11,6 @@ function Dashboard () {
     const { user } = useAuthContext();
 
     let projects = documents ? documents.filter((document) => {
-        console.log(document);
         switch (currentFilter) {
             case 'all':
                 return true;
