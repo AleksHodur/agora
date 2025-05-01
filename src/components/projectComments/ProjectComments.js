@@ -1,16 +1,15 @@
 import './ProjectComments.css';
 import { useState } from 'react';
-import { timestamp } from '../../firebase/config';
 import { useAuthContext } from '../../hooks/useAuthContext';
-import { useFirestore } from '../../hooks/useFirestore';
 import Avatar from '../avatar/Avatar';
 import { formatDistanceToNow } from 'date-fns';
 import { firestoreDateToJSDate } from '../../helpers/converters';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
 
 function ProjectComments({ project }) {
-    const { updateDocument, response } = useFirestore('projects');
     const [newComment, setNewComment] = useState('');
     const { user } = useAuthContext();
+    const { addComment } = useSessionStorage();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -19,18 +18,24 @@ function ProjectComments({ project }) {
             displayName: user.displayName,
             photoURL: user.photoURL,
             content: newComment,
-            createdAt: timestamp.fromDate(new Date()),
+            createdAt: new Date(),
             id: Math.random()
         }
 
+        if (project.sessionProject) {
 
-        await updateDocument(project.id, {
-            comments: [...project.comments, commentObject]
-        });
+            addComment(project.id, commentObject);
+            
+        } else {
 
-        if(!response.error){
-            setNewComment('');
-        }else{
+            /* await updateDocument(project.id, {
+                comments: [...project.comments, commentObject]
+            });
+
+            if(!response.error){
+                setNewComment('');
+            }else{
+            } */
         }
     }
 
