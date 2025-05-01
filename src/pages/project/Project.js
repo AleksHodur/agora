@@ -5,7 +5,7 @@ import ProjectSummary from '../../components/projectSummary/ProjectSummary';
 import ProjectComments from '../../components/projectComments/ProjectComments';
 
 function Project () {
-    const { id } = useParams();
+    const { id } = useParams(); //the id in the path
     const { error, document } = useDocument('projects', id);
 
     if (error) {

@@ -1,6 +1,6 @@
 import Avatar from '../avatar/Avatar';
 import './ProjectSummary.css'
-import { firestoreDateToLocaleString } from '../../helpers/converters';
+import { firestoreDateToLocaleString, dateToLocaleString } from '../../helpers/converters';
 import { useFirestore } from '../../hooks/useFirestore';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useHistory } from 'react-router-dom';
@@ -22,9 +22,12 @@ function ProjectSummary({ project }) {
             <div className="project-summary">
                 <h2 className="page-title">{ project.name }</h2>
                 <p>By { project.createdBy.displayName }</p>
-                <p className="due-date">
+                { !project.sessionProject && <p className="due-date">
                     Project due by { firestoreDateToLocaleString(project.dueDate) }
-                </p>
+                </p> }
+                { project.sessionProject && <p className="due-date">
+                    Project due by { dateToLocaleString(new Date(project.dueDate)) }
+                </p> }
                 <p className="details">
                     { project.details }
                 </p>

@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { projectFirestore } from '../firebase/config';
+import { useSessionStorage } from './useSessionStorage';
 
 export const useDocument = (collection, id) => {
 
     const [document, setDocument] = useState(null);
     const [error, setError] = useState(null);
+    const { getProjectById } = useSessionStorage();
 
     // realtime data
     useEffect( () => {
@@ -20,12 +22,10 @@ export const useDocument = (collection, id) => {
                 setDocument({...snapshot.data(), id: snapshot.id});
                 setError(null);
             }else{
-                setError('No such document exists');
 
                 if(collection === 'projects') {
 
-                    let sessionProjects = JSON.parse(sessionStorage.getItem('projects'));
-                    let project = sessionProjects.filter(p => p.id === id);
+                    let project = getProjectById(id);
 
                     if(project) {
                         setDocument(project);
@@ -45,7 +45,7 @@ export const useDocument = (collection, id) => {
 
         return () => unsubscribe();
 
-    }, [collection, id]);
+    }, [collection, id, getProjectById]);
 
     return {document, error};
 }
