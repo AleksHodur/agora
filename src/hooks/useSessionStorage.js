@@ -25,11 +25,19 @@ export const useSessionStorage = () => {
         //callSetProjects();
     }
 
+    const deleteProject = (id) => {
+        const projects = getProjects();
+        const newProjects = projects.filter(project => project.id != id);
+
+        sessionStorage.setItem('projects', JSON.stringify(newProjects));
+
+    }
+
     /* const addComment = (comment, projectName) => {
         const
         sessionStorage.setItem('projects', [...projects, project]);
         setProjects(sessionStorage.getItem('projects'));
     } */
    
-    return { getProjectById, addProject }
+    return { getProjectById, addProject, deleteProject }
 }

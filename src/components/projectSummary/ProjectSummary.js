@@ -1,17 +1,17 @@
 import Avatar from '../avatar/Avatar';
 import './ProjectSummary.css'
 import { firestoreDateToLocaleString, dateToLocaleString } from '../../helpers/converters';
-import { useFirestore } from '../../hooks/useFirestore';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useHistory } from 'react-router-dom';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
 
 function ProjectSummary({ project }) {
-    const { deleteDocument } = useFirestore('projects');
+    const { deleteProject } = useSessionStorage();
     const { user } = useAuthContext();
     const history = useHistory();
 
     const handleClick = (e) => {
-        deleteDocument(project.id);
+        deleteProject(project.id);
         history.push('/');
     }
 
