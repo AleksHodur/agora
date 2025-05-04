@@ -1,5 +1,5 @@
 import './ProjectComments.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import Avatar from '../avatar/Avatar';
 import { formatDistanceToNow } from 'date-fns';
@@ -7,6 +7,7 @@ import { firestoreDateToJSDate } from '../../helpers/converters';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 
 function ProjectComments({ project }) {
+    const [comments, setComments] = useState(project.comments || []);
     const [newComment, setNewComment] = useState('');
     const { user } = useAuthContext();
     const { addComment } = useSessionStorage();
@@ -25,6 +26,7 @@ function ProjectComments({ project }) {
         if (project.sessionProject) {
 
             addComment(project.id, commentObject);
+            setComments([...comments, commentObject]);
             
         } else {
 
@@ -37,6 +39,8 @@ function ProjectComments({ project }) {
             }else{
             } */
         }
+
+        setNewComment('');
     }
 
     return ( 
@@ -44,7 +48,7 @@ function ProjectComments({ project }) {
             <h4>Project Comments</h4>
 
             <ul>
-                {project.comments.length > 0 && project.comments.map(comment => (
+                {comments.length > 0 && comments.map(comment => (
                     <li key={comment.id}>
                         <div className="comment-author">
                             <Avatar src={comment.photoURL} />
@@ -52,7 +56,8 @@ function ProjectComments({ project }) {
                         </div>
 
                         <div className="comment-date">
-                            <p>{ formatDistanceToNow(firestoreDateToJSDate(comment.createdAt), { addSuffix: true }) }</p>
+                            { !project.sessionProject && <p>{ formatDistanceToNow(firestoreDateToJSDate(comment.createdAt), { addSuffix: true }) }</p>}
+                            { project.sessionProject && <p>{ formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true }) }</p>}
                         </div>
 
                         <div className="comment-content">
