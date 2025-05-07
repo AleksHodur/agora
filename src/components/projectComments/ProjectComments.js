@@ -10,7 +10,7 @@ function ProjectComments({ project }) {
     const [comments, setComments] = useState(project.comments || []);
     const [newComment, setNewComment] = useState('');
     const { user } = useAuthContext();
-    const { addComment } = useSessionStorage();
+    const { addComment, addFirestoreComment } = useSessionStorage();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -20,7 +20,8 @@ function ProjectComments({ project }) {
             photoURL: user.photoURL,
             content: newComment,
             createdAt: new Date(),
-            id: Math.random()
+            id: Math.random(),
+            sessionComment: true
         }
 
         if (project.sessionProject) {
@@ -30,14 +31,8 @@ function ProjectComments({ project }) {
             
         } else {
 
-            /* await updateDocument(project.id, {
-                comments: [...project.comments, commentObject]
-            });
-
-            if(!response.error){
-                setNewComment('');
-            }else{
-            } */
+            addFirestoreComment(project.id, commentObject);
+            setComments([...comments, commentObject]);
         }
 
         setNewComment('');
@@ -56,8 +51,8 @@ function ProjectComments({ project }) {
                         </div>
 
                         <div className="comment-date">
-                            { !project.sessionProject && <p>{ formatDistanceToNow(firestoreDateToJSDate(comment.createdAt), { addSuffix: true }) }</p>}
-                            { project.sessionProject && <p>{ formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true }) }</p>}
+                            { !comment.sessionComment && <p>{ formatDistanceToNow(firestoreDateToJSDate(comment.createdAt), { addSuffix: true }) }</p>}
+                            { comment.sessionComment && <p>{ formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true }) }</p>}
                         </div>
 
                         <div className="comment-content">

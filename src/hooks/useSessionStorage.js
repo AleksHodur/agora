@@ -55,6 +55,43 @@ export const useSessionStorage = () => {
             console.warn('Could not find the project in session storage');
         }
     }
+
+    const getFirestoreComments = () => {
+        return sessionStorage.getItem('projects') != null ? JSON.parse(sessionStorage.getItem('projects')) : [];
+    }
+
+    const getFirestoreCommentsByProjectId = (id) => {
+        let sessionProjects = getFirestoreComments();
+        let projectComments = sessionProjects.filter(obj => obj.projectId == id);
+
+        if(projectComments && projectComments.length > 0) {
+            return projectComments[0];
+        } else {
+            return null;
+        }
+    }
+
+    const addFirestoreComment = (projectId, comment) => {
+        let projectComments = getFirestoreCommentsByProjectId(projectId);
+        let firestoreComments = getFirestoreComments();
+
+        if(!projectComments || projectComments === null) {
+            projectComments = {
+                projectId: projectId,
+                comments: []
+            }
+        }
+
+        projectComments.comments.push(comment);
+        sessionStorage.setItem('firestoreComments', JSON.stringify([...firestoreComments, projectComments]));
+
+
+    }
    
-    return { getProjectById, addProject, deleteProject, addComment }
+    return { getProjectById,
+             addProject,
+             deleteProject,
+             addComment,
+             addFirestoreComment
+            }
 }
