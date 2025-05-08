@@ -57,7 +57,11 @@ export const useSessionStorage = () => {
     }
 
     const getFirestoreComments = () => {
-        return sessionStorage.getItem('projects') != null ? JSON.parse(sessionStorage.getItem('projects')) : [];
+        return sessionStorage.getItem('firestoreComments') != null ? JSON.parse(sessionStorage.getItem('firestoreComments')) : [];
+    }
+
+    const setFirestoreComments = (newComments) => {
+        sessionStorage.setItem('firestoreComments', JSON.stringify(newComments));
     }
 
     const getFirestoreCommentsByProjectId = (id) => {
@@ -83,15 +87,25 @@ export const useSessionStorage = () => {
         }
 
         projectComments.comments.push(comment);
-        sessionStorage.setItem('firestoreComments', JSON.stringify([...firestoreComments, projectComments]));
+        //sessionStorage.setItem('firestoreComments', JSON.stringify([...firestoreComments, projectComments]));
+        deleteFirestoreComments(projectId);
+        firestoreComments = getFirestoreComments();
+        setFirestoreComments([...firestoreComments, projectComments]);
 
+    }
 
+    const deleteFirestoreComments = (projectId) => {
+        const firestoreComments = getFirestoreComments();
+        const newProjects = firestoreComments.filter(project => project.projectId != projectId);
+
+        setFirestoreComments(newProjects);
     }
    
     return { getProjectById,
              addProject,
              deleteProject,
              addComment,
+             getFirestoreCommentsByProjectId,
              addFirestoreComment
             }
 }

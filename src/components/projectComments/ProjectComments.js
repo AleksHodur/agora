@@ -10,7 +10,17 @@ function ProjectComments({ project }) {
     const [comments, setComments] = useState(project.comments || []);
     const [newComment, setNewComment] = useState('');
     const { user } = useAuthContext();
-    const { addComment, addFirestoreComment } = useSessionStorage();
+    const { addComment, getFirestoreCommentsByProjectId, addFirestoreComment } = useSessionStorage();
+
+    useEffect(() => {
+        if(!project.sessionProject) {
+            let sessionComments = getFirestoreCommentsByProjectId(project.id);
+
+            if(sessionComments && sessionComments !== null) {
+                setComments([...comments, ...sessionComments.comments])
+            }
+        }
+    }, [project]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
